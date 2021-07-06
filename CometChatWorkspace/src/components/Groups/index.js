@@ -9,3 +9,4 @@ export { default as CometChatAddGroupMemberListItem } from "./CometChatAddGroupM
 export { default as CometChatBanGroupMemberList } from "./CometChatBanGroupMemberList";
 export { default as CometChatBanGroupMemberListItem } from "./CometChatBanGroupMemberListItem";
 export { default as CometChatGroupListWithMessages } from "./CometChatGroupListWithMessages";
+export { default as CometChatGroupDetailWithMessages } from "./CometChatGroupDetailWithMessages";

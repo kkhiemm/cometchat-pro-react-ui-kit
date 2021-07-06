@@ -986,7 +986,7 @@ class CometChatMessages extends React.PureComponent {
     let messageComponent = (
       <React.Fragment>
         <div css={chatWrapperStyle(this.props, this.state)} className="main__chat" dir={Translator.getDirection(this.state.lang)}>
-          <CometChatMessageHeader
+          {/* <CometChatMessageHeader
             sidebar={this.props.sidebar}
             theme={this.props.theme}
             lang={this.state.lang}
@@ -994,7 +994,7 @@ class CometChatMessages extends React.PureComponent {
             audiocall={this.props.audiocall === false ? false : true}
             videocall={this.props.videocall === false ? false : true}
             widgetsettings={this.props.widgetsettings}
-            actionGenerated={this.actionHandler} />
+            actionGenerated={this.actionHandler} /> */}
           <CometChatMessageList
             ref={(el) => { this.messageListRef = el; }}
             theme={this.props.theme}
