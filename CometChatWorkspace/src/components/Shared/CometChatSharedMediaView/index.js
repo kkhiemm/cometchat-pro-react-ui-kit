@@ -25,7 +25,7 @@ import {
 
 } from "./style";
 
-import fileIcon from "./resources/file.png";
+import fileIcon from "./resources/file-upload.svg";
 
 class CometChatSharedMediaView extends React.Component {
 
@@ -33,7 +33,7 @@ class CometChatSharedMediaView extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this._isMounted = false;
         this.state = {
             messagetype: "image",
             messageList: []
@@ -48,6 +48,7 @@ class CometChatSharedMediaView extends React.Component {
 
     componentDidMount() {
 
+        this._isMounted = true;
         this.SharedMediaManager = new SharedMediaManager(this.context.item, this.context.type, this.state.messagetype);
         this.getMessages(true);
         this.SharedMediaManager.attachListeners(this.messageUpdated);
@@ -67,6 +68,7 @@ class CometChatSharedMediaView extends React.Component {
     componentWillUnmount() {
         this.SharedMediaManager.removeListeners();
         this.SharedMediaManager = null;
+        this._isMounted = false;
     }
 
     //callback for listener functions
@@ -119,11 +121,13 @@ class CometChatSharedMediaView extends React.Component {
         this.SharedMediaManager.fetchPreviousMessages().then(messages => {
     
             const messageList = [...messages, ...this.state.messageList];
-            this.setState({ messageList: messageList });
+            if (this._isMounted) {
 
-            if(scrollToBottom) {
-                this.scrollToBottom();
-            }
+                this.setState({messageList: messageList});
+                if(scrollToBottom) {
+                    this.scrollToBottom();
+                }
+            } 
     
         }).catch(error => {
 
@@ -158,7 +162,7 @@ class CometChatSharedMediaView extends React.Component {
             if(this.state.messagetype === "image" && message.data.url) {
 
                 return (
-                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon)} className="item item__image">
+                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon, this.context)} className="item item__image">
                         <img src={message.data.url} alt={Translator.translate("SHARED_MEDIA", this.props.lang)} />
                     </div>
                 );
@@ -166,7 +170,7 @@ class CometChatSharedMediaView extends React.Component {
             } else if (this.state.messagetype === "video" && message.data.url) {
 
                 return (
-                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon)} className="item item__video">
+                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon, this.context)} className="item item__video">
                         <video src={message.data.url} />
                     </div>
                 );
@@ -174,10 +178,13 @@ class CometChatSharedMediaView extends React.Component {
             } else if (this.state.messagetype === "file" && message.data.attachments) {
 
                 return (
-                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon)} className="item item__file">
-                    <a href={message.data.attachments[0].url} 
-                    target="_blank" 
-                    rel="noopener noreferrer">{message.data.attachments[0].name}</a>
+                    <div id={message.id} key={key} css={itemStyle(this.state, this.props, fileIcon, this.context)} className="item item__file">
+                        <a href={message.data.attachments[0].url} 
+                        target="_blank" 
+                        rel="noopener noreferrer">
+                            <i></i>
+                           <span>{message.data.attachments[0].name}</span>
+                        </a>
                     </div>
                 );
             }
@@ -218,4 +225,4 @@ CometChatSharedMediaView.propTypes = {
     theme: PropTypes.object
 }
 
-export default CometChatSharedMediaView;
+export { CometChatSharedMediaView };

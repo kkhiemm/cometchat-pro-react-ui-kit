@@ -1,13 +1,16 @@
-export const modalRowStyle = (props) => {
+export const modalRowStyle = (theme) => {
 
     return {
-        border: `1px solid ${props.theme.borderColor.primary}`,
+        border: `1px solid ${theme.borderColor.primary}`,
         display: "flex",
         width: "100%",
         fontSize: "14px",
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
+        "&:not(:last-child)": {
+            borderBottom: "none"
+        }
     }
 }
 
@@ -15,7 +18,7 @@ export const modalColumnStyle = () => {
 
     return {
         padding: "8px",
-        width: "100%",
+        width: "calc(100% - 50px)",
     }
 }
 
@@ -46,24 +49,29 @@ export const selectionColumnStyle = () => {
     return {
         padding: "8px",
         width: "50px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     }
 }
 
-export const selectionBoxStyle = (inactiveStateImg, activeStateImg) => {
+export const selectionBoxStyle = (inactiveStateImg, activeStateImg, theme) => {
 
     return {
         display: "none",
         " + label": {
             display: "block",
             cursor: "pointer",
-            background: `url(${inactiveStateImg}) right center / 16px no-repeat`,
             userSelect: "none",
-            float: "right",
             padding: "8px",
+            width: "100%",
+            mask: `url(${inactiveStateImg}) center center no-repeat`,
+            backgroundColor: `${theme.secondaryTextColor}`,
         },
         "&:checked + label": {
-            background: `url(${activeStateImg}) no-repeat right center`,
-            backgroundSize: "16px",
+            width: "100%",
+            mask: `url(${activeStateImg}) center center no-repeat`,
+            backgroundColor: `${theme.secondaryTextColor}`,
         }
     }
 }

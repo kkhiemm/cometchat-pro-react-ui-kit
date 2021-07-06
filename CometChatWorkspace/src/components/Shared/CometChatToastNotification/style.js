@@ -1,59 +1,61 @@
 export const notificationContainerStyle = (props, keyframes) => {
 
-    const toastInRight = keyframes`
-    from {transform: translateX(100%);}
-    to {transform: translateX(0);}`;
+    // const toastInRight = keyframes`
+    // from {transform: translateX(100%);}
+    // to {transform: translateX(0);}`;
 
-    const toastInLeft = keyframes`
-        from {transform: translateX(-100%); }
-        to {transform: translateX(0);}`;
+    // const toastInLeft = keyframes`
+    //     from {transform: translateX(-100%); }
+    //     to {transform: translateX(0);}`;
 
-    let positionProp = {}
+    // let positionProp = {}
+    // if (props.position === "top-right") {
 
-    if (props.position === "top-right") {
+    //     positionProp = {
+    //         top: "12px",
+    //         right: "12px",
+    //         transition: "transform .6s ease-in",
+    //         animation: `${toastInRight} .5s`
+    //     };
 
-        positionProp = {
-            top: "12px",
-            right: "12px",
-            transition: "transform .6s ease-in",
-            animation: `${toastInRight} .5s`
-        };
+    // } else if (props.position === "bottom-right") {
 
-    } else if (props.position === "bottom-right") {
+    //     positionProp = {
+    //         bottom: "12px",
+    //         right: "12px",
+    //         transition: "transform .6s ease-in",
+    //         animation: `${toastInRight} .5s`
+    //     };
 
-        positionProp = {
-            bottom: "12px",
-            right: "12px",
-            transition: "transform .6s ease-in",
-            animation: `${toastInRight} .5s`
-        };
+    // } else if (props.position === "top-left") {
 
-    } else if (props.position === "top-left") {
+    //     positionProp = {
+    //         top: "12px",
+    //         left: "12px",
+    //         transition: "transform .6s ease-in",
+    //         animation: `${toastInLeft} .5s`
+    //     };
 
-        positionProp = {
-            top: "12px",
-            left: "12px",
-            transition: "transform .6s ease-in",
-            animation: `${toastInLeft} .5s`
-        };
+    // } else if (props.position === "bottom-left") {
 
-    } else if (props.position === "bottom-left") {
-
-        positionProp = {
-            bottom: "12px",
-            left: "12px",
-            transition: "transform .6s ease-in",
-            animation: `${toastInLeft} .5s`
-        };
-    }
+    //     positionProp = {
+    //         bottom: "12px",
+    //         left: "12px",
+    //         transition: "transform .6s ease-in",
+    //         animation: `${toastInLeft} .5s`
+    //     };
+    // }
 
     return {
         fontSize: "14px",
         boxSizing: "border-box",
         position: "absolute",
         zIndex: "5",
-        width: "300px",
-        ...positionProp
+        width: "80%",
+        maxWidth: "320px",
+        top: "70px",
+        left: "50%",
+        transform: "translate(-50%, 0)",
     }
 }
 
@@ -92,8 +94,9 @@ export const notificationStyle = (props, state, keyframes, CometChatToastNotific
         position: "relative",
         pointerEvents: "auto",
         overflow: "hidden",
-        padding: "16px",
+        padding: "8px",
         marginBottom: "16px",
+        fontSize: "13px",
         width: "100%",
         minHeight: "50px",
         boxShadow: "0 0 10px #999",
@@ -153,4 +156,15 @@ export const notificationCloseButtonStyle = () => {
             maxWidth: "100%"
         }
     }
+}
+
+export const iconStyle = (img, theme) => {
+
+    return {
+        width: "24px",
+        height: "24px",
+        display: "inline-block",
+        mask: `url(${img}) center center no-repeat`,
+        backgroundColor: `${theme.color.white}`,
+    };
 }

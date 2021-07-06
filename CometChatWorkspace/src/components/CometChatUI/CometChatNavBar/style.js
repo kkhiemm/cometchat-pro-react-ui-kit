@@ -16,34 +16,45 @@ export const navbarStyle = () => {
     }
 }
 
-export const itemStyle = () => {
+export const itemStyle = props => {
+	return {
+		padding: "8px",
+		cursor: "pointer",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		fontSize: "12px",
+		color: `${props.theme.color.helpText}`,
+	};
+};
+
+export const itemLinkStyle = (icon, isActive, context) => {
+
+    let activeStateBg = (isActive) ? { 
+        backgroundColor: `${context.theme.primaryColor}`,
+    } : {
+        backgroundColor: `${context.theme.secondaryTextColor}`,
+    };
 
     return {
+        height: "24px",
+        width: "24px",
         display: "inline-block",
-        padding: "8px",
-        cursor: "pointer"
-    }
-}
-
-export const itemLinkStyle = (icon, activeStateIcon, isActive, key) => {
-
-    let activeStateBg = (isActive) ? { background: `url(${activeStateIcon}) center center no-repeat`, } : {};
-
-    let widthProp = {};
-
-    if(key === "groups") {
-        widthProp = { width: "31px" }
-    } else if (key === "chats") {
-        widthProp = { width: "22px" }
-    } else {
-        widthProp = { width: "20px" }
-    }
-
-    return {
-        height: "20px",
-        ...widthProp,
-        display: "inline-block",
-        background: `url(${icon}) center center no-repeat`,
+        mask: `url(${icon}) no-repeat center center`,
         ...activeStateBg
     }
 }
+
+export const itemLinkTextStyle = (isActive, context) => {
+
+    const colorProp = (isActive) ? {
+        color: `${context.theme.primaryColor}`
+    } : {
+        color: `${context.theme.secondaryTextColor}`,
+    };
+
+    return {
+        ...colorProp
+    }
+};

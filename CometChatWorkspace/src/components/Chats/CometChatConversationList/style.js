@@ -40,14 +40,15 @@ export const chatsHeaderStyle = (props) => {
     }
 }
 
-export const chatsHeaderCloseStyle = (img, props) => {
+export const chatsHeaderCloseStyle = (img, context) => {
 
-    const mq = [...props.theme.breakPoints];
+    const mq = [...context.theme.breakPoints];
 
     return {
         cursor: "pointer",
         display: "none",
-        background: `url(${img}) left center no-repeat`,
+        mask: `url(${img}) no-repeat left center`,
+        backgroundColor: `${context.theme.primaryColor}`,
         height: "24px",
         width: "33%",
         [`@media ${mq[0]}`]: {
@@ -93,11 +94,13 @@ export const chatsMsgTxtStyle = (props) => {
 
     return {
         margin: "0",
-        height: "36px",
+        minHeight: "36px",
         color: `${props.theme.color.secondary}`,
-        fontSize: "24px!important",
+        fontSize: "20px!important",
         fontWeight: "600",
         lineHeight: "30px",
+        wordWrap: "break-word",
+        padding: "0 16px"
     }
 }
 

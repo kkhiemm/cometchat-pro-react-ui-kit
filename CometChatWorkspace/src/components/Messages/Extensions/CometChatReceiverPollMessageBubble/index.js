@@ -29,13 +29,14 @@ import {
     pollAnswerStyle,
     pollPercentStyle,
     answerWrapperStyle,
+    checkIconStyle,
     pollTotalStyle,
     messageInfoWrapperStyle,
     messageReactionsWrapperStyle
 } from "./style";
 
 
-import checkIcon from "./resources/check.svg";
+import checkImg from "./resources/checkmark.svg";
 
 class CometChatReceiverPollMessageBubble extends React.Component {
 
@@ -75,23 +76,10 @@ class CometChatReceiverPollMessageBubble extends React.Component {
         .then(response => {
 
             if (response.hasOwnProperty("success") === false || (response.hasOwnProperty("success") && response["success"] === false)) {
-                this.context.setToastMessage("error", "POLL_VOTE_FAIL");
+                this.props.actionGenerated(enums.ACTIONS["ERROR"], [], "SOMETHING_WRONG");
             }
         })
-        .catch(error => {
-
-            let errorCode = "ERROR";
-            if (error.hasOwnProperty("code")) {
-
-                errorCode = error.code;
-                if (error.code === enums.CONSTANTS.ERROR_CODES["ERR_CHAT_API_FAILURE"]
-                    && error.hasOwnProperty("details")
-                    && error.details.hasOwnProperty("code")) {
-                    errorCode = error.details.code;
-                }
-            }
-            this.context.setToastMessage("error", errorCode);
-        });
+        .catch(error => this.props.actionGenerated(enums.ACTIONS["ERROR"], [], "SOMETHING_WRONG"));
     }
 
     handleMouseHover = () => {
@@ -133,7 +121,7 @@ class CometChatReceiverPollMessageBubble extends React.Component {
             );
 
             name = (<div css={nameWrapperStyle(avatar)} className="message__name__wrapper">
-                <span css={nameStyle(this.props)} className="message__name">{this.state.message.sender.name}</span>
+                <span css={nameStyle(this.context)} className="message__name">{this.state.message.sender.name}</span>
             </div>);
         }
 
@@ -165,10 +153,16 @@ class CometChatReceiverPollMessageBubble extends React.Component {
                 width = fraction.toLocaleString("en", { style: 'percent' });
             }
 
+            let checkIcon = null;
+            if (optionData.hasOwnProperty("voters") && optionData.voters.hasOwnProperty(this.props.loggedInUser.uid)) {
+                checkIcon = <i css={checkIconStyle(checkImg, this.context)}></i>; 
+            }
+
             const template = (
                 <li key={option} onClick={(event) => this.answerPollQuestion(event, option)}>
-                    <div css={pollPercentStyle(this.props, width)}> </div>
-                    <div css={answerWrapperStyle(this.props, optionData, checkIcon)}>
+                    <div css={pollPercentStyle(this.context, width)}> </div>
+                    <div css={answerWrapperStyle(this.props, optionData, this.context)}>
+                        {checkIcon}
                         <span>{width}</span>
                         <p>{optionData.text}</p>
                     </div>
@@ -208,9 +202,9 @@ class CometChatReceiverPollMessageBubble extends React.Component {
                         {name}
                         {toolTipView}
                         <div css={messageTxtContainerStyle()} className="message__poll__container">
-                            <div css={messageTxtWrapperStyle(this.props)} className="message__poll__wrapper">
+                            <div css={messageTxtWrapperStyle(this.context)} className="message__poll__wrapper">
                                 <p css={pollQuestionStyle()} className="poll__question">{pollExtensionData.question}</p>
-                                <ul css={pollAnswerStyle(this.props)} className="poll__options">
+                                <ul css={pollAnswerStyle(this.context)} className="poll__options">
                                     {pollOptions}
                                 </ul>
                                 <p css={pollTotalStyle()} className="poll__votes">{totalText}</p>
@@ -241,4 +235,4 @@ CometChatReceiverPollMessageBubble.propTypes = {
     theme: PropTypes.object
 }
 
-export default CometChatReceiverPollMessageBubble;
+export { CometChatReceiverPollMessageBubble };
